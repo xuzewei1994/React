@@ -3,9 +3,7 @@
 import React,{ Component } from 'react'
 import Item from './Item.js'
 
-import { DatePicker } from 'antd'
-
-import { Button } from 'antd'
+import { Button,Input,Row,Col,List,Typography } from 'antd'
 
 import "./App.css"
 
@@ -27,14 +25,11 @@ class App extends Component{
         this.setState((preState)=>({
             list:[...preState.list,preState.task],
             task:''
-        }),()=>{
-            console.log('2::',this.ul.childNodes) 
-        })
-        console.log('1::',this.ul.childNodes)       
+        }))     
     }
 
     handleChange(ev){
-      const task = this.input.value
+      const task = ev.target.value
       this.setState(()=>({
          task:task
       }))
@@ -61,18 +56,30 @@ class App extends Component{
     render(){
         return( 
         <div className="App">
-            <input 
-                onChange={ this.handleChange } 
-                value={ this.state.task }
-                ref={(input)=>{ this.input = input }} 
+            <Row>
+                
+                <Col span={18}>
+                    <Input 
+                        onChange={this.handleChange} 
+                        value={this.state.task}
+                    />
+                </Col>
+                <Col span={6}>
+                    <Button type="primary" onClick={ this.handleAdd }>提交</Button> 
+                </Col>
+            </Row>
+             <List
+             style={{marginTop:15}}
+              bordered
+              dataSource={this.state.list}
+              renderItem={(item,index) => (
+                <List.Item
+                    onClick={this.handleDel.bind(this,index)}
+                >
+                    {item}
+                </List.Item>
+              )}
             />
-            <Button type="primary" onClick={ this.handleAdd }>提交</Button>
-            <ul ref={(ul)=>{ this.ul = ul }}>
-                {
-                    this.getItems()
-                }
-            </ul>
-            <DatePicker />
         </div> 
         )             
     }
