@@ -1,35 +1,39 @@
+/*
+* @Author: TomChen
+* @Date:   2019-08-12 10:29:05
+* @Last Modified by:   TomChen
+* @Last Modified time: 2019-08-14 10:59:53
+*/
 
+import * as types  from './actionTypes.js'
 
-import {ADD_ITEM,CHANGE_ITEM,DEL_ITEM,LOCAL_ITEM} from "./actionTypes.js"
-
-//保存初始化的数据
 const defaultState = {
-    list:["吃饭","睡觉","敲代码"],
+    list:["吃饭","睡觉"],
     task:''
 }
 
 export default (state=defaultState,action)=>{
     
-    if(action.type == CHANGE_ITEM){
+    if(action.type == types.CHANGE_ITEM){
         const newState = JSON.parse(JSON.stringify(state))
         newState.task = action.payload
         return newState
     }
-    if(action.type == ADD_ITEM){
+    if(action.type == types.ADD_ITEM){
         const newState = JSON.parse(JSON.stringify(state))
         newState.list.push(state.task)
         newState.task = ''
         return newState
     }
-    if(action.type == DEL_ITEM){
+    if(action.type == types.DEL_ITEM){
         const newState = JSON.parse(JSON.stringify(state))
         newState.list.splice(action.payload,1)
         return newState        
     }
-    if(action.type == LOCAL_ITEM){
+    if(action.type == types.LOAD_DATA){
         const newState = JSON.parse(JSON.stringify(state))
         newState.list = action.payload
-        return newState        
+        return newState
     }
     return state
 }
